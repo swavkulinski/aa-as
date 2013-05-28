@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+configurations {
+    compile
+    androidannotations.extendsFrom(compile)
+}
+
+dependencies {
+
+    compile files('libs/android-support-v4.jar')
+    compile 'org.androidannotations:androidannotations-api:3.0-SNAPSHOT'
+    androidannotations 'org.androidannotations:androidannotations:3.0-SNAPSHOT'
+}
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 16
+        packageName "org.labaa.aa"
+        testPackageName "org.labaa.aa.test"
+        testInstrumentationRunner "org.labaa.aa.test.Runner"
+
+    }
+}
+
+afterEvaluate { project ->
+    android.applicationVariants.each { variant ->
+        variant.javaCompile.options.compilerArgs += [
+                '-classpath', configurations.compile.asPath,
+                '-processorpath', configurations.androidannotations.asPath,
+                '-processor', 'org.androidannotations.AndroidAnnotationProcessor',
+                '-AandroidManifestFile=' + variant.processResources.manifestFile
+        ]
+    }
+}
