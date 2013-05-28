@@ -3,8 +3,8 @@ aa-as
 
 AndroidAnnotations with Android Studio
 
-This is reference how to get AndroidAnnotations work with Android Studio. 
-As IDE is in very early stages there are thing we have to do manually:
+This is reference how to get AndroidAnnotations work with Android Studio.<br> 
+As IDE is in very early stages there are thing we have to do manually:<br>
 1. modify build.gradle inside module<br>
 2. add dependency on androidannotations-api jar in module settings<br>
    optionally add generated path to sources if you want to write tests<br>
